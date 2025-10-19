@@ -1,0 +1,10 @@
+PRIVATE_WIFI_IP=192.168.0.33
+PRIVATE_LAN_IP=192.168.219.102
+PUBLIC_TAILSCALE_IP=100.98.57.128
+
+IP=$PUBLIC_TAILSCALE_IP
+
+BUILD_DIR=build/rpi5
+TARGET_PATH=/home/changhyun/Desktop/vulkan_samples_remote/
+
+rsync -av --delete $BUILD_DIR changhyun@$IP:$TARGET_PATH
