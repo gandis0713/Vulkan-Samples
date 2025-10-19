@@ -1,0 +1,55 @@
+# Copyright (c) 2025, Arm Limited and Contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 the "License";
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Raspberry Pi 5 OS (Debian Bookworm based) build environment
+FROM debian:bookworm
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    libwayland-dev \
+    libxkbcommon-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libxcursor-dev \
+    libxi-dev \
+    libx11-dev \
+    libglm-dev \
+    libvulkan-dev \
+    vulkan-tools \
+    vulkan-validationlayers \
+    mesa-vulkan-drivers \
+    python3 \
+    python3-pip \
+    ninja-build \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ccache for faster rebuilds
+RUN apt-get update && apt-get install -y ccache && rm -rf /var/lib/apt/lists/*
+
+# Set up working directory
+WORKDIR /workspace
+
+# Clone and build the samples by default
+# This will be overridden when mounting local source
+CMD ["/bin/bash"]
